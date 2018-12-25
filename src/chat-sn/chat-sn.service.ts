@@ -1,4 +1,12 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class ChatSnService {}
+export class ChatSnService {
+
+  constructor(){}
+
+
+
+
+
+}

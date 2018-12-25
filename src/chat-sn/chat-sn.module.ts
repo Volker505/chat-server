@@ -8,6 +8,6 @@ import { ChatSnProviders } from './chat-sn.provider';
   imports: [ChatDbModule],
   controllers: [ChatSnController],
   providers: [ ChatSnService ],
-  components: [...ChatSnProviders]//deprecated
+  components: [ ...ChatSnProviders ]//deprecated
 })
 export class ChatSnModule {}
