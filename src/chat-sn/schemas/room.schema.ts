@@ -3,9 +3,6 @@ import { UserSchema } from './user.schema';
 import { MessageSchema } from './message.schema';
 
 export const RoomSchema = new mongoose.Schema({
-  userMod: {
-    type: UserSchema,
-  },
 
   users: {
     type: [UserSchema]
@@ -13,6 +10,12 @@ export const RoomSchema = new mongoose.Schema({
 
   messages: {
     type: [MessageSchema]
+  },
+
+  avatarRoom:{
+    type: String
   }
+
+  //добавить материалы беседы
 
 });

@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { RoomSchema } from './room.schema';
 
 
 export const UserSchema = new mongoose.Schema ({
@@ -16,5 +17,9 @@ export const UserSchema = new mongoose.Schema ({
 
   avatar: {
     type: String,
+  },
+
+  rooms: {
+    type: [RoomSchema]
   }
 });

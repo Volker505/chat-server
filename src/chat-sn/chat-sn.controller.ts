@@ -7,7 +7,12 @@ export class ChatSnController {
 
 
   @Get(':id')
-  async infoChat(@Param('id') roomId?: string){
+  async getChatList(@Param('id') user: string){
+
+  }
+
+  @Get('info-chat')
+  async getChatInfo (@Query() query: {user: string, roomId: string}){
 
   }
 
