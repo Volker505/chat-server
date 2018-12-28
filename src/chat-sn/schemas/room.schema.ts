@@ -4,6 +4,10 @@ import { MessageSchema } from './message.schema';
 
 export const RoomSchema = new mongoose.Schema({
 
+  name: {
+    type: String
+  },
+
   users: {
     type: [UserSchema]
   },

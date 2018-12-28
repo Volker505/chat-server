@@ -5,5 +5,5 @@ export interface User extends Document{
   readonly mainId: string;
   readonly userName: string;
   readonly avatar: string;
-  readonly rooms: Room[];
+  readonly rooms?: Room[];
 }

@@ -1,10 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { NewRoomDto } from './dto/new-room.dto';
 import { MessageDto } from './dto/message.dto';
+import { UserDto } from './dto/user.dto';
+import { ChatSnService } from './chat-sn.service';
 
 @Controller('chat-sn')
 export class ChatSnController {
 
+  constructor(private chatService: ChatSnService){
+  }
 
   @Get(':id')
   async getChatList(@Param('id') user: string){
@@ -17,8 +20,8 @@ export class ChatSnController {
   }
 
   @Post('create')
-  async createRoom (@Body() params: NewRoomDto){
-
+  async createRoom (@Body() data: {name?: string, users: UserDto[]}){
+    return await this.chatService.createRoom(data);
   }
 
   @Put('connect/:id')
