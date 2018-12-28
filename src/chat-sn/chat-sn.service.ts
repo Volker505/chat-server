@@ -17,19 +17,25 @@ export class ChatSnService {
               @InjectModel(roomConnectionToken) private readonly roomModel: Model<Room>
   ){}
 
+//todo все проверить
 
-  async getChatList(user: string){
-
+  async getChatList(user: string): Promise<{status: string, list?: any}>{
+    const userDB =  await this.userModel.findOne({mainId: user});
+    if (!userDB){ return {status: 'Нет чатов'} }
+    return { status:'ok', list: userDB.rooms}
   }
 
-  async getChatInfo(params: {user: string, roomId: string}){
+  async getChatInfo(params: {user: string, roomId: string}): Promise<{status: string, info?: any}>{
+    const userDB = await this.userModel.findOne({mainId: params.user});
+    if (!userDB){ return { status: 'Нет чатов' } }
 
+    const room = userDB.rooms.find(data => data._id == params.roomId);
+    if (!room){ return { status: 'Информация о чате отсутствует или такого чата нет' } }
+    return {status: 'ok', info: room}
   }
 
   async createRoom(data: {name?: string, users: UserDto[]}){
-
     let usersInRoom = [];
-    let usersIsNotDB = [];
     for (let user of data.users){
       let userDB = await this.userModel.findOne({mainId: user.mainId});
 
