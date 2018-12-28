@@ -1,4 +1,5 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { NewRoomDto } from './dto/new-room.dto';
 import { MessageDto } from './dto/message.dto';
 import { messageConnectionToken, roomConnectionToken, userConnectionToken } from '../chat-db/providers';
@@ -11,9 +12,9 @@ import { Room } from './interfaces/room.interface';
 @Injectable()
 export class ChatSnService {
 
-  constructor(@Inject(userConnectionToken) private readonly userModel: Model<User>,
-              @Inject(messageConnectionToken) private readonly messageModel: Model<Message>,
-              @Inject(roomConnectionToken) private readonly roomModel: Model<Room>
+  constructor(@InjectModel(userConnectionToken) private readonly userModel: Model<User>,
+              @InjectModel(messageConnectionToken) private readonly messageModel: Model<Message>,
+              @InjectModel(roomConnectionToken) private readonly roomModel: Model<Room>
   ){}
 
 

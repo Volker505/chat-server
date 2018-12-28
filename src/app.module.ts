@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ChatSnModule } from './chat-sn/chat-sn.module';
-import { ChatDbModule } from './chat-db/chat-db.module';
 import { ChatRtModule } from './chat-sn/chat-rt/chat-rt.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [ChatSnModule, ChatRtModule],
+  imports: [
+    MongooseModule.forRoot('mongodb://localhost:27017/chat'),
+    ChatSnModule,
+    ChatRtModule
+  ],
 })
 export class AppModule {}

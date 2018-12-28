@@ -1,5 +1,4 @@
-import { dbConnectionToken, messageConnectionToken, roomConnectionToken, userConnectionToken } from '../chat-db/providers';
-import { Connection } from 'mongoose';
+import { messageConnectionToken, roomConnectionToken, userConnectionToken } from '../chat-db/providers';
 import { UserSchema } from './schemas/user.schema';
 import { RoomSchema } from './schemas/room.schema';
 import { MessageSchema } from './schemas/message.schema';
@@ -7,20 +6,14 @@ import { MessageSchema } from './schemas/message.schema';
 
 export const ChatSnProviders = [
   {
-    provide: userConnectionToken,
-    useFactory:  (connection: Connection) => connection.model('user', UserSchema),
-    inject: [dbConnectionToken]
+    name: userConnectionToken, schema: UserSchema
   },
 
   {
-    provide: roomConnectionToken,
-    useFactory:  (connection: Connection) => connection.model('room', RoomSchema),
-    inject: [dbConnectionToken]
+    name: roomConnectionToken, schema: RoomSchema
   },
 
   {
-    provide: messageConnectionToken,
-    useFactory:  (connection: Connection) => connection.model('message', MessageSchema),
-    inject: [dbConnectionToken]
+    name: messageConnectionToken, schema: MessageSchema
   }
 ];
