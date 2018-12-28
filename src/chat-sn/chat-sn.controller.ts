@@ -11,12 +11,12 @@ export class ChatSnController {
 
   @Get(':id')
   async getChatList(@Param('id') user: string){
-
+    return await this.chatService.getChatList(user);
   }
 
   @Get('info-chat')
-  async getChatInfo (@Query() query: {user: string, roomId: string}){
-
+  async getChatInfo (@Query() params: {user: string, roomId: string}){
+    return await this.chatService.getChatInfo(params);
   }
 
   @Post('create')
@@ -25,21 +25,21 @@ export class ChatSnController {
   }
 
   @Put('connect/:id')
-  async connectRomm (@Param('id') roomId: string, @Body() user: string){
-
+  async connectRoom (@Param('id') roomId: string, @Body() user: string){
+    return await this.chatService.connectRoom(roomId, user);
   }
 
   @Put('leave/:id')
   async leaveRoom (@Param('id') roomId: string, @Body() user: string){
-
+    return await this.chatService.leaveRoom(roomId, user);
   }
 
   //////msg
 
-  @Post('send-msg')
-  async sendMessage (@Body() msg: MessageDto){
-
-  }
+  // @Post('send-msg')
+  // async sendMessage (@Body() msg: MessageDto){
+  //
+  // }
 
   // @Delete('del-msg/:id')
   // async delMsg(@Param('id') roomId: string, @Body() : ){

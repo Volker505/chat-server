@@ -73,7 +73,7 @@ export class ChatSnService {
     return newRoom;
   }
 
-  async connectRomm(roomId: string, user: string){
+  async connectRoom(roomId: string, user: string){
 
   }
 
@@ -81,11 +81,9 @@ export class ChatSnService {
 
   }
 
-  async sendMessage(msg: MessageDto){
-
-  }
-
-
+  // async sendMessage(msg: MessageDto){
+  //
+  // }
 
   // async
 
