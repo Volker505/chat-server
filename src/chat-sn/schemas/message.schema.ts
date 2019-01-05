@@ -1,8 +1,9 @@
 import * as mongoose from 'mongoose';
+import { UserSchema } from './user.schema';
 
 export const MessageSchema = new mongoose.Schema({
   author: {
-    type: {name: String, avatar: String, id: String},
+    type: UserSchema,
     required: true,
   },
 

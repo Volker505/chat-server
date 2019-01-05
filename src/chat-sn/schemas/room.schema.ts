@@ -16,10 +16,12 @@ export const RoomSchema = new mongoose.Schema({
     type: [MessageSchema]
   },
 
-  avatarRoom:{
+  avatar:{
     type: String
   }
 
   //добавить материалы беседы
 
 });
+
+// module.exports = RoomSchema.index({users: -1});

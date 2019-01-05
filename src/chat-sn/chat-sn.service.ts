@@ -19,30 +19,31 @@ export class ChatSnService {
 
 //todo все проверить
 
-  async getChatList(user: string): Promise<{status: string, list?: any}>{
-    const userDB =  await this.userModel.findOne({mainId: user});
-    if (!userDB){ return {status: 'Нет чатов'} }
-    return { status:'ok', list: userDB.rooms}
+  async getChatList(roomIds: string[]): Promise<{status: string, list?: any}>{
+
+    let rooms = [];
+    for (let id of roomIds){
+      const room = await this.roomModel.findById(id);
+      room && rooms.push(room);//todo
+    }
+
+    return { status:'ok', list: rooms}
   }
 
-  async getChatInfo(params: {user: string, roomId: string}): Promise<{status: string, info?: any}>{
-    const userDB = await this.userModel.findOne({mainId: params.user});
-    if (!userDB){ return { status: 'Нет чатов' } }
-
-    const room = userDB.rooms.find(data => data._id == params.roomId);
-    if (!room){ return { status: 'Информация о чате отсутствует или такого чата нет' } }
-    return {status: 'ok', info: room}
+  async getChatInfo(roomId: string){
+    return await this.roomModel.findById(roomId);
   }
 
   async createRoom(data: {name?: string, users: UserDto[]}){
+
     let usersInRoom = [];
     for (let user of data.users){
-      let userDB = await this.userModel.findOne({mainId: user.mainId});
+      let userDB = await this.userModel.findOne({usrolddb: user.usrolddb});
 
       if (!userDB){
         userDB = new this.userModel({
-          mainId: user.mainId,
-          userName: user.userName,
+          usrolddb: user.usrolddb,
+          username: user.username,
           avatar: user.avatar
         });
         await userDB.save()
@@ -52,28 +53,29 @@ export class ChatSnService {
     }
 
     const newRoom = new this.roomModel({
-      name: data.name||`rooom ${data.users[0].userName} ...`,
+      name: data.name||`rooom ${data.users[0].username} ...`,
       users: usersInRoom,
       //добавитьт аву
     });
 
-    for (let user of usersInRoom){
-      try {
-        await this.userModel.findByIdAndUpdate(user._id,{ rooms: user.rooms.push(newRoom) }, (err) => {
-          if (err){
-            throw err;
-          }
-        });
-      }
-      catch (e) {
-        console.log(e, 'ошибка добавления')
-      }
-    }
 
+    await newRoom.save();
     return newRoom;
   }
 
-  async connectRoom(roomId: string, user: string){
+  async connectRoom(roomId: string, user: UserDto){
+    // const userDB =
+
+    let userDB = await this.userModel.findOne({usrolddb: user.usrolddb});
+
+    if (!userDB){
+      userDB = new this.userModel({
+        usrolddb: user.usrolddb,
+        username: user.username,
+        avatar: user.avatar
+      });
+      await userDB.save()
+    }
 
   }
 

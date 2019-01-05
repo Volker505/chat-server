@@ -2,7 +2,7 @@
 
 
 export class UserDto {
-  readonly mainId: string;
-  readonly userName: string;
+  readonly usrolddb: string;
+  readonly username: string;
   readonly avatar: string;
 }

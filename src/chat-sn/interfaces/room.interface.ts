@@ -6,5 +6,5 @@ export interface Room extends Document {
   readonly name: string;
   readonly users: User[];
   readonly messages?: Message[];
-  readonly avatarRoom?: string;
+  readonly avatar?: string;
 }

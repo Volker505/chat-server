@@ -1,5 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { MessageDto } from './dto/message.dto';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { UserDto } from './dto/user.dto';
 import { ChatSnService } from './chat-sn.service';
 
@@ -9,23 +8,44 @@ export class ChatSnController {
   constructor(private chatService: ChatSnService){
   }
 
-  @Get(':id')
-  async getChatList(@Param('id') user: string){
-    return await this.chatService.getChatList(user);
+  @Get()//5c277402e12cc73de4a30e2c//5c27741ee12cc73de4a30e2f//5c277457ac26ce3df4da4aba
+  async getChatList(@Query() data: string){  //в качестве параметра принимаем массив в строке JSON.stringify([])
+
+    const data1 = JSON.stringify({arr: ['5c277402e12cc73de4a30e2c', '5c27741ee12cc73de4a30e2f', '5c277457ac26ce3df4da4aba']});
+
+    return await this.chatService.getChatList(JSON.parse(data1).arr);
   }
 
-  @Get('info-chat')
-  async getChatInfo (@Query() params: {user: string, roomId: string}){
-    return await this.chatService.getChatInfo(params);
+  @Get('info-chat/:id')
+  async getChatInfo (@Param('id') roomId: string){
+    return await this.chatService.getChatInfo(roomId);
   }
 
   @Post('create')
   async createRoom (@Body() data: {name?: string, users: UserDto[]}){
     return await this.chatService.createRoom(data);
+
+    //пример запроса
+    // {
+    //   "name": "чат с максом",
+    //   "users": [
+    //   {
+    //     "mainId" : "1",
+    //     "userName" : "макс",
+    //     "avatar" : "бла бла"
+    //   },
+    //
+    //   {
+    //     "mainId" : "2",
+    //     "userName" : "иван",
+    //     "avatar" : "бла бла"
+    //   }
+    // ]
+    // }
   }
 
   @Put('connect/:id')
-  async connectRoom (@Param('id') roomId: string, @Body() user: string){
+  async connectRoom (@Param('id') roomId: string, @Body() user: UserDto){
     return await this.chatService.connectRoom(roomId, user);
   }
 
