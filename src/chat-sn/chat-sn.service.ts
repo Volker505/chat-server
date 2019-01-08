@@ -53,7 +53,7 @@ export class ChatSnService {
     }
 
     const newRoom = new this.roomModel({
-      name: data.name||`rooom ${data.users[0].username} ...`,
+      name: data.name || `rooom ${data.users[0].username} ...`,
       users: usersInRoom,
       //добавитьт аву
     });
@@ -64,8 +64,6 @@ export class ChatSnService {
   }
 
   async connectRoom(roomId: string, user: UserDto){
-    // const userDB =
-
     let userDB = await this.userModel.findOne({usrolddb: user.usrolddb});
 
     if (!userDB){
@@ -77,16 +75,29 @@ export class ChatSnService {
       await userDB.save()
     }
 
+    let room = await this.roomModel.findById(roomId);//todo обработк ошибок
+    if (!room) { return {status: 'error (такой комнаты нет)'} }
+
+    await this.roomModel.findByIdAndUpdate(roomId, {users: [...room.users, userDB]});//todo обработк ошибок
+
+    // return room;
   }
 
   async leaveRoom(roomId: string, user: string){
+    const room = await this.roomModel.findById(roomId);
+    if (!room) { return {status: 'error (такой комнаты нет)'} }
 
+    try {//todo проверить
+      const usersNew = room.users.splice(room.users.findIndex(user => user.usrolddb == user),1)
+    }
+    catch (e) {
+      return {status: 'error'}
+    }
+
+    await this.roomModel.findByIdAndUpdate(roomId, {users: room.users});//todo обработк ошибок
+
+    // return
   }
 
-  // async sendMessage(msg: MessageDto){
-  //
-  // }
-
-  // async
 
 }
