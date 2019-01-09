@@ -74,29 +74,25 @@ export class ChatSnService {
       });
       await userDB.save()
     }
-
+    //todo обработать второе вхождение пользователя в одну руму
     let room = await this.roomModel.findById(roomId);//todo обработк ошибок
     if (!room) { return {status: 'error (такой комнаты нет)'} }
 
-    await this.roomModel.findByIdAndUpdate(roomId, {users: [...room.users, userDB]});//todo обработк ошибок
-
-    // return room;
+    return await this.roomModel.findOneAndUpdate({_id: roomId}, {users: [...room.users, userDB]}, {new: true});//todo обработк ошибок
   }
 
-  async leaveRoom(roomId: string, user: string){
+  async leaveRoom(roomId: string, data: {userId: string}){
     const room = await this.roomModel.findById(roomId);
     if (!room) { return {status: 'error (такой комнаты нет)'} }
 
     try {//todo проверить
-      const usersNew = room.users.splice(room.users.findIndex(user => user.usrolddb == user),1)
+      const usersNew = room.users.splice(room.users.findIndex(userRoom => userRoom.usrolddb == data.userId),1)
     }
     catch (e) {
       return {status: 'error'}
     }
 
-    await this.roomModel.findByIdAndUpdate(roomId, {users: room.users});//todo обработк ошибок
-
-    // return
+    return await this.roomModel.findOneAndUpdate({_id: roomId}, {users: room.users}, {new: true});//todo обработк ошибок
   }
 
 

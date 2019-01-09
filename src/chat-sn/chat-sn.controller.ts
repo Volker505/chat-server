@@ -50,7 +50,7 @@ export class ChatSnController {
   }
 
   @Put('leave/:id')
-  async leaveRoom (@Param('id') roomId: string, @Body() user: string){
+  async leaveRoom (@Param('id') roomId: string, @Body() user: {userId: string}){
     return await this.chatService.leaveRoom(roomId, user);
   }
 
