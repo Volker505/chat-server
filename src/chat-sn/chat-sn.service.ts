@@ -13,7 +13,6 @@ import { UserDto } from './dto/user.dto';
 export class ChatSnService {
 
   constructor(@InjectModel(userConnectionToken) private readonly userModel: Model<User>,
-              @InjectModel(messageConnectionToken) private readonly messageModel: Model<Message>,
               @InjectModel(roomConnectionToken) private readonly roomModel: Model<Room>
   ){}
 
